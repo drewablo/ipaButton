@@ -187,7 +187,7 @@ void setup()
 
   Stick.begin();
   // Kick off a pattern
-  Stick.Fade(Stick.Color(255, 0, 0), Stick.Color(50, 0, 0), 200, 5);
+  Stick.Fade(Stick.Color(255, 0, 0), Stick.Color(0, 0, 0), 255, 7);
   TrinketKeyboard.begin();
 
 }
@@ -195,9 +195,15 @@ void setup()
 // Main loop
 void loop()
 {
+  TrinketKeyboard.poll();
   if (digitalRead(12) == LOW) // Button #1 pressed
   {
+    
+    TrinketKeyboard.pressKey(KEYCODE_MOD_LEFT_CONTROL, KEYCODE_P);
+    TrinketKeyboard.pressKey(0, 0);
+    
     clearStrip();
+        
     for (int k = 0; k < 5; k++) {
       TrinketKeyboard.poll();
       for (int j = 0; j < 13; j++) {
@@ -227,8 +233,8 @@ void loop()
       }
     }
   } else {
-    Stick.Update();
-
+  TrinketKeyboard.poll();
+  Stick.Update();
   }
 }
 
@@ -246,8 +252,9 @@ void StickComplete()
 
 
 void clearStrip() {
-  TrinketKeyboard.poll();
   for ( int i = 0; i < 12; i++) {
-    Stick.setPixelColor(i, 0x000000); Stick.show();
+    TrinketKeyboard.poll();
+    Stick.setPixelColor(i, 0x000000);
   }
+  Stick.show();
 }
